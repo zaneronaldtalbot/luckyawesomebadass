@@ -78,23 +78,24 @@ public class FollowMe: MonoBehaviour {
 
 
 	void Chasey (){
-		for (int c = children.Length-1; c >= 0; c--) {
 			if (children.Length == 1) {
 				following = player;
-			} else {
-				following = children [c++].gameObject;
+			} else
+			{
+				int a = children.Length - 2;
+				following = children [a].gameObject;
 
 			}
-			Debug.Log (c + " Following : " + following);
+				Debug.Log (children.Length - 2 + " Following : " + following);
 
 
-		}
+
 	}
 		
 
 	private void Followed (){
 		// if the enemy gets close enough to the player as though they were basically touching, the game over screen shows, and the player controller is disabled
-		if (Vector3.Distance (transform.position, following.transform.position) < 5f) {
+		if (Vector3.Distance (transform.position, following.transform.position) < 2f) {
 			caughtUp = true;
 			navAgent.speed = stopSpeed;
 		} else {
