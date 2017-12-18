@@ -20,6 +20,7 @@ public class FollowMe: MonoBehaviour {
 	public GameObject following;
 	public bool caughtUp;
 	public bool lost = true;
+	public float followDistance = 2f;
 			
 
 	//--------------------------------------------------------------------------------------
@@ -95,7 +96,7 @@ public class FollowMe: MonoBehaviour {
 
 	private void Followed (){
 		// if the enemy gets close enough to the player as though they were basically touching, the game over screen shows, and the player controller is disabled
-		if (Vector3.Distance (transform.position, following.transform.position) < 2f) {
+		if (Vector3.Distance (transform.position, following.transform.position) < followDistance) {
 			caughtUp = true;
 			navAgent.speed = stopSpeed;
 		} else {
