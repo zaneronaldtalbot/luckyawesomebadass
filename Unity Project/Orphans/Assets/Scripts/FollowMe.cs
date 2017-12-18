@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
-public class Enemy : MonoBehaviour {
+public class FollowMe: MonoBehaviour {
 	//the navAgent attached to the Enemies
 	private NavMeshAgent navAgent;	
 
 	public GameObject[] children;
+	public GameObject player;
 	// how fast the enemies walk while patrolling
 	private float stopSpeed = 0f;
 	public float speed = 3.5f; 
@@ -18,6 +19,7 @@ public class Enemy : MonoBehaviour {
 
 	public GameObject following;
 	public bool caughtUp;
+	public bool lost = true;
 			
 
 	//--------------------------------------------------------------------------------------
@@ -36,8 +38,12 @@ public class Enemy : MonoBehaviour {
 		navAgent = GetComponent<NavMeshAgent> ();				
 		navAgent.speed = speed;
 		caughtUp = false;
-		children = GameObject.FindGameObjectsWithTag("Children");
-		Chasey ();
+		//children = GameObject.FindGameObjectsWithTag("Children");
+		player = GameObject.Find ("Player");
+
+
+
+
 
 	}
 
@@ -52,17 +58,34 @@ public class Enemy : MonoBehaviour {
 	//--------------------------------------------------------------------------------------
 	void Update () {
 		CheckDistance ();
-		Followed ();
-		children = GameObject.FindGameObjectsWithTag("Children");
+		//Followed ();
+
 		//if the player is captured, the enter key will resart the level, escape will go to main menu
-		Chasey ();
+
 
 
 	}
+
+	void OnTriggerEnter (Collider other) {
+		if (other.tag == "Player" && lost) {
+			lost = false;
+			gameObject.tag = "Children";
+			children = GameObject.FindGameObjectsWithTag("Children");
+			Chasey ();
+		}
+	}
+
+
+
 	void Chasey (){
 		for (int c = children.Length-1; c >= 0; c--) {
-			
-			following = children[c].gameObject;
+			if (children.Length == 1) {
+				following = player;
+			} else {
+				following = children [c++].gameObject;
+
+			}
+			Debug.Log (c + " Following : " + following);
 
 
 		}
@@ -71,7 +94,7 @@ public class Enemy : MonoBehaviour {
 
 	private void Followed (){
 		// if the enemy gets close enough to the player as though they were basically touching, the game over screen shows, and the player controller is disabled
-		if (Vector3.Distance (transform.position, following.transform.position) < 2f) {
+		if (Vector3.Distance (transform.position, following.transform.position) < 5f) {
 			caughtUp = true;
 			navAgent.speed = stopSpeed;
 		} else {
@@ -95,11 +118,15 @@ public class Enemy : MonoBehaviour {
 	private void CheckDistance(){
 		//if player is not sneaking
 
-		if (!caughtUp) {		
-			navAgent.destination = following.transform.position;		
+		if (!caughtUp && !lost) {		
+			navAgent.destination = following.transform.position;
+			Followed ();
+		} else if (!lost){
+			Followed ();
+		}
 
 
-			}
+			
 
 	}
 
