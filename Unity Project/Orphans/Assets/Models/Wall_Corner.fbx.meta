@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: e9148bf7004c58a469dfc75c2e40bed7
-timeCreated: 1513557554
-licenseType: Pro
+guid: 9854ce9dd02c3e34289f2d3f5411cb47
+timeCreated: 1515371138
+licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Level_Wall
+    4300000: Wall_Corner
     9500000: //RootNode
   materials:
     importMaterials: 1
